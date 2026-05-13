@@ -7,33 +7,33 @@
 ## Pages
 
 ### בית
-https://hiro-30a96362.zappy5.app
+https://example.com
 הירו היא פלטפורמת גיוס עובדים מתקדמת המשלבת AI חכם, מעקב מועמדים וכלי CRM בפתרון אחד. גלו את עתיד הגיוס עוד היום.
 
 ### למגייסים
-https://hiro-30a96362.zappy5.app/recruiters
+https://example.com/recruiters
 מגייסים — הכירו את מערכת גיוס העובדים החכמה ביותר: התאמת AI סמנטית, Job Sonar פרואקטיבי, ניהול לידים וCRM מלא. גייסו מהר יותר ובדייקנות מרבית.
 
 ### למועמדים
-https://hiro-30a96362.zappy5.app/candidates
+https://example.com/candidates
 מועמדים — נהלו את חיפוש העבודה שלכם עם סוכן קריירה חכם, מעקב בקשות בזמן אמת ופרופיל רב-פרסונות. שפרו את קורות החיים וסנכרנו עם מגייסים רלוונטיים.
 
 ### צור קשר
-https://hiro-30a96362.zappy5.app/contact
+https://example.com/contact
 רוצים לשדרג את תהליך גיוס העובדים? צרו קשר עם צוות הירו עכשיו וגלו כיצד פלטפורמת הגיוס שלנו תחסוך לכם זמן ותמלא משרות מהר יותר.
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://hiro-30a96362.zappy5.app/privacy
+https://example.com/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://hiro-30a96362.zappy5.app/terms
+https://example.com/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://hiro-30a96362.zappy5.app/accessibility
+https://example.com/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
@@ -43,8 +43,8 @@ Information about WCAG compliance and accessibility features.
 - (No contact details configured yet.)
 
 ### Contact form
-- URL: https://hiro-30a96362.zappy5.app/contact
-- Endpoint: https://hiro-30a96362.zappy5.app/api/email/contact-form
+- URL: https://example.com/contact
+- Endpoint: https://example.com/api/email/contact-form
 - Method: POST
 - Content-Type: application/json
 - Fields:
@@ -90,6 +90,6 @@ HR Tech / גיוס עובדים
 
 # Machine-readable feeds
 
-- Sitemap (XML): https://hiro-30a96362.zappy5.app/sitemap.xml
-- Robots: https://hiro-30a96362.zappy5.app/robots.txt
-- Flattened page text (for LLMs): https://hiro-30a96362.zappy5.app/llms-full.txt
+- Sitemap (XML): https://example.com/sitemap.xml
+- Robots: https://example.com/robots.txt
+- Flattened page text (for LLMs): https://example.com/llms-full.txt

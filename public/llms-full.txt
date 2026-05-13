@@ -2,13 +2,13 @@
 
 Hiro is an all-in-one AI-powered recruitment platform targeting two distinct audiences: recruiters/coordinators and job candidates. For recruiters, it offers a full Recruitment & CRM OS featuring semantic AI matching across dozens of parameters, a proactive Job Sonar tool, intuitive candidate segmentation, bulk email/SMS communication, task management, analytics, built-in CV editing, and a comprehensive CRM with client health metrics and custom workflows. For candidates, it provides a Personal Career Suite with an AI career agent, an application tracker (including external applications), multi-persona profile management, and real-time sync to relevant recruiters. The brand is modern, tech-forward, and efficiency-driven, positioning itself as the smartest and most complete hiring ecosystem available.
 
-Source: https://hiro-30a96362.zappy5.app
+Source: https://example.com
 
 ---
 
 ## גיוס עובדים לתעשייה — Hiro
 
-URL: https://hiro-30a96362.zappy5.app
+URL: https://example.com
 Description: הירו היא פלטפורמת גיוס עובדים מתקדמת המשלבת AI חכם, מעקב מועמדים וכלי CRM בפתרון אחד. גלו את עתיד הגיוס עוד היום.
 
 גיוס עובדים לתעשייה — Hiro
@@ -688,7 +688,7 @@ Hiro היא פלטפורמת הגיוס המלאה שמשנה את חוויית 
 
 ## הכלי שכל מגייס חיכה לו — Hiro
 
-URL: https://hiro-30a96362.zappy5.app/recruiters
+URL: https://example.com/recruiters
 Description: מגייסים — הכירו את מערכת גיוס העובדים החכמה ביותר: התאמת AI סמנטית, Job Sonar פרואקטיבי, ניהול לידים וCRM מלא. גייסו מהר יותר ובדייקנות מרבית.
 
 הכלי שכל מגייס חיכה לו — Hiro
@@ -1378,7 +1378,7 @@ Job Sonar סורק את המאגר הקיים ומציף מועמדים מתאי
 
 ## הקריירה שלך מתחילה כאן — Hiro
 
-URL: https://hiro-30a96362.zappy5.app/candidates
+URL: https://example.com/candidates
 Description: מועמדים — נהלו את חיפוש העבודה שלכם עם סוכן קריירה חכם, מעקב בקשות בזמן אמת ופרופיל רב-פרסונות. שפרו את קורות החיים וסנכרנו עם מגייסים רלוונטיים.
 
 הקריירה שלך מתחילה כאן — Hiro
@@ -2143,7 +2143,7 @@ Hiro היא מערכת גיוס עובדים שעובדת בשבילך — עו�
 
 ## בואו נבנה את צוות הגיוס שלכם — Hiro
 
-URL: https://hiro-30a96362.zappy5.app/contact
+URL: https://example.com/contact
 Description: רוצים לשדרג את תהליך גיוס העובדים? צרו קשר עם צוות הירו עכשיו וגלו כיצד פלטפורמת הגיוס שלנו תחסוך לכם זמן ותמלא משרות מהר יותר.
 
 בואו נבנה את צוות הגיוס שלכם — Hiro
@@ -2626,7 +2626,7 @@ Hiro מיועדת לשני קהלים מרכזיים: מגייסים ורכזי 
 
 ## מדיניות פרטיות
 
-URL: https://hiro-30a96362.zappy5.app/privacy
+URL: https://example.com/privacy
 Description: מדיניות הפרטיות שלנו - כיצד אנו אוספים, משתמשים ומגנים על המידע שלכם
 
 מדיניות פרטיות
@@ -2886,7 +2886,7 @@ Hiro ("החברה", "אנו", "שלנו") מחויבת להגן על פרטיו�
 
 ## הצהרת נגישות
 
-URL: https://hiro-30a96362.zappy5.app/accessibility
+URL: https://example.com/accessibility
 Description: הצהרת הנגישות שלנו - מחויבותנו לנגישות דיגיטלית
 
 הצהרת נגישות
@@ -3155,7 +3155,7 @@ Hiro מחויבת להנגיש את השירותים לכלל הציבור. אנ
 
 ## תנאי שימוש
 
-URL: https://hiro-30a96362.zappy5.app/terms
+URL: https://example.com/terms
 Description: תנאי השימוש באתר - הזכויות והחובות של המשתמשים
 
 תנאי שימוש
