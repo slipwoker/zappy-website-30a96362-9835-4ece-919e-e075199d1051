@@ -1,0 +1,95 @@
+# Hiro — Generative Engine Optimization Map
+
+> Hiro is an all-in-one AI-powered recruitment platform targeting two distinct audiences: recruiters/coordinators and job candidates. For recruiters, it offers a full Recruitment & CRM OS featuring semantic AI matching across dozens of parameters, a proactive Job Sonar tool, intuitive candidate segmentation, bulk email/SMS communication, task management, analytics, built-in CV editing, and a comprehensive CRM with client health metrics and custom workflows. For candidates, it provides a Personal Career Suite with an AI career agent, an application tracker (including external applications), multi-persona profile management, and real-time sync to relevant recruiters. The brand is modern, tech-forward, and efficiency-driven, positioning itself as the smartest and most complete hiring ecosystem available.
+
+---
+
+## Pages
+
+### בית
+https://hiro-30a96362.zappy5.app
+הירו היא פלטפורמת גיוס עובדים מתקדמת המשלבת AI חכם, מעקב מועמדים וכלי CRM בפתרון אחד. גלו את עתיד הגיוס עוד היום.
+
+### למגייסים
+https://hiro-30a96362.zappy5.app/recruiters
+מגייסים — הכירו את מערכת גיוס העובדים החכמה ביותר: התאמת AI סמנטית, Job Sonar פרואקטיבי, ניהול לידים וCRM מלא. גייסו מהר יותר ובדייקנות מרבית.
+
+### למועמדים
+https://hiro-30a96362.zappy5.app/candidates
+מועמדים — נהלו את חיפוש העבודה שלכם עם סוכן קריירה חכם, מעקב בקשות בזמן אמת ופרופיל רב-פרסונות. שפרו את קורות החיים וסנכרנו עם מגייסים רלוונטיים.
+
+### צור קשר
+https://hiro-30a96362.zappy5.app/contact
+רוצים לשדרג את תהליך גיוס העובדים? צרו קשר עם צוות הירו עכשיו וגלו כיצד פלטפורמת הגיוס שלנו תחסוך לכם זמן ותמלא משרות מהר יותר.
+
+## Legal & Policy
+
+### Privacy Policy
+https://hiro-30a96362.zappy5.app/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://hiro-30a96362.zappy5.app/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://hiro-30a96362.zappy5.app/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+## How to Contact Us
+
+- (No contact details configured yet.)
+
+### Contact form
+- URL: https://hiro-30a96362.zappy5.app/contact
+- Endpoint: https://hiro-30a96362.zappy5.app/api/email/contact-form
+- Method: POST
+- Content-Type: application/json
+- Fields:
+  - `name` (text, required)
+  - `email` (email, required)
+  - `phone` (tel)
+  - `role` (radio)
+  - `role` (radio)
+  - `role` (radio)
+  - `message` (textarea, required)
+  - `privacy_consent` (checkbox, required)
+
+---
+
+# Business Context (for LLM understanding)
+
+## About Hiro
+Hiro is an all-in-one AI-powered recruitment platform targeting two distinct audiences: recruiters/coordinators and job candidates. For recruiters, it offers a full Recruitment & CRM OS featuring semantic AI matching across dozens of parameters, a proactive Job Sonar tool, intuitive candidate segmentation, bulk email/SMS communication, task management, analytics, built-in CV editing, and a comprehensive CRM with client health metrics and custom workflows. For candidates, it provides a Personal Career Suite with an AI career agent, an application tracker (including external applications), multi-persona profile management, and real-time sync to relevant recruiters. The brand is modern, tech-forward, and efficiency-driven, positioning itself as the smartest and most complete hiring ecosystem available.
+
+## Services/Products
+- מנגנון התאמה מבוסס AI עם השוואה סמנטית
+- Job Sonar – איתור מועמדים מתאימים מהמאגר
+- חיפוש סמנטי ופילוח מועמדים
+- מרכז תקשורת – מיילים ו-SMS בתפוצה רחבה
+- ניהול משימות ואנליטיקה מתקדמת
+- עריכת קורות חיים מובנית
+- מודול CRM מקיף עם מדדי בריאות לקוח
+- סוכן קריירה אישי מבוסס AI
+- Application Tracker – מעקב הגשות
+- Multi-Persona – ניהול ריבוי פרופילים מקצועיים
+- סנכרון בזמן אמת בין מועמד למגייסים
+
+## Target Audience
+- מועמדים ומגייסים / רכזי גיוס
+- מועמדים ומגייסים
+- מנהלי משאבי אנוש בתחום הטכנולוגי
+- רכזי גיוס בחברות סטארטאפ
+
+## Industry
+HR Tech / גיוס עובדים
+
+---
+
+# Machine-readable feeds
+
+- Sitemap (XML): https://hiro-30a96362.zappy5.app/sitemap.xml
+- Robots: https://hiro-30a96362.zappy5.app/robots.txt
+- Flattened page text (for LLMs): https://hiro-30a96362.zappy5.app/llms-full.txt

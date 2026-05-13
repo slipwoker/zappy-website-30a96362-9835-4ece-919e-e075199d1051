@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>הקריירה שלך מתחילה כאן — Hiro</title>
+    <meta name="description" content="מועמדים — נהלו את חיפוש העבודה שלכם עם סוכן קריירה חכם, מעקב בקשות בזמן אמת ופרופיל רב-פרסונות. שפרו את קורות החיים וסנכרנו עם מגייסים רלוונטיים.">
+    <meta name="keywords" content="משפר קורות חיים, פלטפורמת גיוס עובדים, גיוס עובדי ייצור, חיפוש עבודה חכם">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: '30a96362-9835-4ece-919e-e075199d1051',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="הקריירה שלך מתחילה כאן — Hiro">
+    <meta property="og:description" content="מועמדים — נהלו את חיפוש העבודה שלכם עם סוכן קריירה חכם, מעקב בקשות בזמן אמת ופרופיל רב-פרסונות. שפרו את קורות החיים וסנכרנו עם מגייסים רלוונטיים.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="הקריירה שלך מתחילה כאן — Hiro">
+    <meta name="twitter:description" content="מועמדים — נהלו את חיפוש העבודה שלכם עם סוכן קריירה חכם, מעקב בקשות בזמן אמת ופרופיל רב-פרסונות. שפרו את קורות החיים וסנכרנו עם מגייסים רלוונטיים.">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .skip-link { position: absolute; left: -9999px; top: 0; padding: 12px 18px; background: var(--bg-dark, #1a1a1a); color: var(--text-light, #fff); font-weight: 600; border-radius: 0 0 8px 0; z-index: 10000; }
+    .skip-link:focus { left: 0; outline: 2px solid var(--ring, #fff); outline-offset: 2px; }
+    :focus-visible { outline: 2px solid var(--ring, currentColor); outline-offset: 3px; }
+  </style>
+
+
+  
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+<a class="skip-link" href="#main">דלג לתוכן הראשי</a>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="[business_phone]" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link"><img class="logo" src="/assets/site----------image-1.webp" alt="Hiro"></a>
+    </div><ul class="nav-menu" id="navMenu"><li><a href="/">בית</a></li><li><a href="/recruiters">למגייסים</a></li><li><a href="/candidates">למועמדים</a></li></ul></div>
+
+    
+
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .navbar,
+          nav.navbar {
+            min-height: 70px !important;
+          }
+
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            margin-top: auto !important;
+            margin-bottom: auto !important;
+            transform: none !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-dark)) !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: transparent !important;
+          }
+
+          html[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          body[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] header .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] nav .phone-header-btn {
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '0', 'important');
+          mobileToggle.style.setProperty('bottom', '0', 'important');
+          mobileToggle.style.setProperty('margin-top', 'auto', 'important');
+          mobileToggle.style.setProperty('margin-bottom', 'auto', 'important');
+          mobileToggle.style.setProperty('transform', 'none', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '0', 'important');
+          phoneBtn.style.setProperty('bottom', '0', 'important');
+          phoneBtn.style.setProperty('margin-top', 'auto', 'important');
+          phoneBtn.style.setProperty('margin-bottom', 'auto', 'important');
+          phoneBtn.style.setProperty('transform', 'none', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu handler (shared by click and touchend)
+    function handleToggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+      const closeIcon = newToggle.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    }
+    
+    // Use click for desktop/emulation and touchend as iOS Safari fallback.
+    // Prevent double-fire with a timestamp guard.
+    var lastToggleTime = 0;
+    function guardedToggle(e) {
+      var now = Date.now();
+      if (now - lastToggleTime < 300) return;
+      lastToggleTime = now;
+      handleToggle(e);
+    }
+    
+    newToggle.addEventListener('click', guardedToggle);
+    newToggle.addEventListener('touchend', guardedToggle);
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main id="main">
+    <section class="candidates-intro-section" data-layout-spec="למועמדים-intro" dir="rtl">
+  <!-- Decorative blobs -->
+  <div class="candidates-intro-blob candidates-intro-blob--purple" aria-hidden="true"></div>
+  <div class="candidates-intro-blob candidates-intro-blob--lavender" aria-hidden="true"></div>
+
+  <div class="candidates-intro-container">
+    <!-- Content Column (RIGHT / START) -->
+    <div class="candidates-intro-content">
+      <span class="candidates-intro-badge">
+        <svg data-no-icon-edit="true" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 1L8.5 5.5H13L9.5 8.5L11 13L7 10.5L3 13L4.5 8.5L1 5.5H5.5L7 1Z" fill="#8F3DFF"></path></svg>
+        הסוויטה האישית לקריירה שלך
+      </span>
+
+      <h1 class="candidates-intro-heading">קריירה חכמה<br><span class="candidates-intro-heading-accent">מתחילה כאן</span></h1>
+
+      <p class="candidates-intro-lead">Hiro היא פלטפורמת גיוס העובדים שמציבה אותך במרכז — עם כלי AI שמשפרים את קורות החיים שלך, עוקבים אחרי כל הגשה ומוודאים שהמגייסים הנכונים רואים אותך בזמן הנכון.</p>
+
+      <ul class="candidates-intro-reassurances">
+        <li class="candidates-intro-reassurance-item">
+          <span class="candidates-intro-reassurance-icon">
+            <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#EDE9FE"></circle><path d="M6 10.5L8.5 13L14 7.5" stroke="#8F3DFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </span>
+          <div class="candidates-intro-reassurance-text">
+            <strong>הצג את עצמך בצורה הטובה ביותר</strong>
+            <span>סוכן ה-AI האישי שלך משפר קורות חיים ומתאים אותם לכל משרה בדיוק.</span>
+          </div>
+        </li>
+        <li class="candidates-intro-reassurance-item">
+          <span class="candidates-intro-reassurance-icon">
+            <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#EDE9FE"></circle><path d="M5 10h10M10 5v10" stroke="#8F3DFF" stroke-width="2" stroke-linecap="round"></path></svg>
+          </span>
+          <div class="candidates-intro-reassurance-text">
+            <strong>עקוב אחרי כל ההגשות שלך</strong>
+            <span>כולל הגשות שביצעת מחוץ ל-Hiro — הכל במקום אחד, ברור ומסודר.</span>
+          </div>
+        </li>
+        <li class="candidates-intro-reassurance-item">
+          <span class="candidates-intro-reassurance-icon">
+            <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#EDE9FE"></circle><path d="M10 4a6 6 0 100 12A6 6 0 0010 4zm0 0v2m0 8v2m-6-6h2m8 0h2" stroke="#8F3DFF" stroke-width="2" stroke-linecap="round"></path></svg>
+          </span>
+          <div class="candidates-intro-reassurance-text">
+            <strong>תמיד גלוי למגייסים הרלוונטיים</strong>
+            <span>כל עדכון בפרופיל שלך מסתנכרן אוטומטית ומגיע למגייסים המתאימים בזמן אמת.</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="candidates-intro-ctas">
+        <a href="/contact" class="candidates-intro-btn-primary">התחל בחינם</a>
+        <a href="/contact" class="candidates-intro-btn-ghost">דבר איתנו <i class="fa-solid fa-arrow-right candidates-intro-arrow-icon"></i></a>
+      </div>
+    </div>
+
+    <!-- Imagery Column (LEFT / END) -->
+    <div class="candidates-intro-imagery">
+      <!-- Timeline card peeking from top-start -->
+      <div class="candidates-intro-card candidates-intro-card--timeline">
+        <div class="candidates-intro-card-header">
+          <span class="candidates-intro-card-dot candidates-intro-card-dot--green"></span>
+          <span class="candidates-intro-card-label">מסלול הקריירה שלך</span>
+        </div>
+        <div class="candidates-intro-timeline">
+          <div class="candidates-intro-timeline-item candidates-intro-timeline-item--active">
+            <span class="candidates-intro-timeline-node"></span>
+            <div class="candidates-intro-timeline-content">
+              <strong>מפתחת Full Stack</strong>
+              <small>Hiro Tech · 2024</small>
+            </div>
+          </div>
+          <div class="candidates-intro-timeline-item">
+            <span class="candidates-intro-timeline-node candidates-intro-timeline-node--muted"></span>
+            <div class="candidates-intro-timeline-content">
+              <strong>מפתחת Frontend</strong>
+              <small>StartupX · 2022–2024</small>
+            </div>
+          </div>
+          <div class="candidates-intro-timeline-item">
+            <span class="candidates-intro-timeline-node candidates-intro-timeline-node--muted"></span>
+            <div class="candidates-intro-timeline-content">
+              <strong>Junior Developer</strong>
+              <small>Agency Pro · 2020–2022</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main dashboard card -->
+      <div class="candidates-intro-card candidates-intro-card--main">
+        <img loading="eager" fetchpriority="high" data-placeholder="candidates-intro-image-1" data-context="A polished HR tech SaaS dashboard UI showing a candidate career suite with an AI career agent panel, application tracker list with status badges (in progress, interview, offer), and a profile completion score ring. Purple and white color scheme, modern rounded card layout, Hebrew text labels, RTL interface." width="520" height="340" src="/assets/site-candidates-intro-image-1.webp" alt="לוח בקרה של סוויטת הקריירה האישית ב-Hiro" class="candidates-intro-dashboard-img">
+        <div class="candidates-intro-card-footer">
+          <div class="candidates-intro-stat">
+            <span class="candidates-intro-stat-number">12</span>
+            <span class="candidates-intro-stat-label">הגשות פעילות</span>
+          </div>
+          <div class="candidates-intro-stat-divider"></div>
+          <div class="candidates-intro-stat">
+            <span class="candidates-intro-stat-number">3</span>
+            <span class="candidates-intro-stat-label">ראיונות השבוע</span>
+          </div>
+          <div class="candidates-intro-stat-divider"></div>
+          <div class="candidates-intro-stat">
+            <span class="candidates-intro-stat-number">94%</span>
+            <span class="candidates-intro-stat-label">התאמת פרופיל</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile card peeking from bottom-end -->
+      <div class="candidates-intro-card candidates-intro-card--profile">
+        <div class="candidates-intro-profile-row">
+          <img loading="lazy" decoding="async" data-placeholder="candidates-intro-image-2" data-context="A friendly professional headshot avatar of a young Israeli woman smiling, suitable for a candidate profile card in an HR tech app. Soft circular crop, warm natural lighting, modern casual-professional style." width="44" height="44" src="/assets/site-candidates-intro-image-2.webp" alt="תמונת פרופיל מועמדת" class="candidates-intro-avatar">
+          <div class="candidates-intro-profile-info">
+            <strong>מיה לוי</strong>
+            <small>מפתחת Full Stack</small>
+          </div>
+          <span class="candidates-intro-online-badge">
+            <span class="candidates-intro-online-dot"></span>
+            פעיל
+          </span>
+        </div>
+        <div class="candidates-intro-persona-tags">
+          <span class="candidates-intro-persona-tag">פיתוח</span>
+          <span class="candidates-intro-persona-tag">React</span>
+          <span class="candidates-intro-persona-tag">Node.js</span>
+        </div>
+        <div class="candidates-intro-match-row">
+          <img loading="lazy" decoding="async" data-placeholder="candidates-intro-image-3" data-context="A small abstract icon or avatar representing a recruiter or company in an HR tech app, used as a tiny match indicator inside a candidate profile card. Minimal, rounded, purple tones." width="24" height="24" src="/assets/site-candidates-intro-image-3.webp" alt="אייקון מגייס" class="candidates-intro-recruiter-avatar">
+          <span class="candidates-intro-match-text">3 מגייסים צפו בפרופיל שלך היום</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="candidates-benefits-section" data-layout-spec="למועמדים-benefits" dir="rtl">
+  <div class="candidates-benefits-container">
+
+    <!-- Section Header -->
+    <div class="candidates-benefits-header">
+      <span class="candidates-benefits-eyebrow">למועמדים</span>
+      <h2 class="candidates-benefits-title">הכלים שיקדמו את הקריירה שלך</h2>
+      <p class="candidates-benefits-subtitle">Hiro מעניקה לך סוכן קריירה חכם, מעקב מלא אחר ההגשות שלך, וסנכרון אוטומטי עם המגייסים הנכונים — הכל במקום אחד.</p>
+    </div>
+
+    <!-- Benefits Grid -->
+    <div class="candidates-benefits-grid">
+
+      <!-- Card 1: AI Career Agent -->
+      <article class="candidates-benefit-card">
+        <div class="candidates-benefit-card-inner">
+          <div class="candidates-benefit-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M10 16.5c1.5-3 4-5 6-5s4.5 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <circle cx="12" cy="13" r="1.5" fill="currentColor"></circle>
+              <circle cx="20" cy="13" r="1.5" fill="currentColor"></circle>
+              <path d="M13 20c.8.8 1.6 1.2 3 1.2s2.2-.4 3-1.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <div class="candidates-benefit-content">
+            <h3 class="candidates-benefit-title">סוכן קריירה אישי</h3>
+            <p class="candidates-benefit-desc">בינה מלאכותית שעובדת בשבילך — משפרת את קורות החיים שלך, מאתרת הזדמנויות רלוונטיות, ומתאימה אותך למשרות בצורה אקטיבית. כאילו יש לך יועץ קריירה זמין 24/7.</p>
+          </div>
+          <figure class="candidates-benefit-image-wrap">
+            <img loading="lazy" decoding="async" data-placeholder="candidates-benefits-image-1" data-context="Friendly AI career assistant interface showing resume improvement suggestions and job match recommendations, soft purple and white UI, modern SaaS dashboard, Hebrew RTL layout, warm and approachable digital product screenshot" width="480" height="280" src="/assets/site-candidates-benefits-image-1.webp" alt="סוכן קריירה אישי מבוסס AI של Hiro">
+          </figure>
+        </div>
+        <div class="candidates-benefit-indicator">
+          <span class="candidates-benefit-dot"></span>
+          <small>מופעל על ידי AI</small>
+        </div>
+      </article>
+
+      <!-- Card 2: Application Tracker -->
+      <article class="candidates-benefit-card">
+        <div class="candidates-benefit-card-inner">
+          <div class="candidates-benefit-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="5" y="4" width="22" height="24" rx="3" stroke="currentColor" stroke-width="2"></rect>
+              <path d="M10 11h12M10 16h12M10 21h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <circle cx="24" cy="22" r="5" fill="var(--primary)"></circle>
+              <path d="M22 22l1.5 1.5L26 20.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </div>
+          <div class="candidates-benefit-content">
+            <h3 class="candidates-benefit-title">מעקב הגשות מלא</h3>
+            <p class="candidates-benefit-desc">כל הגשה במקום אחד — כולל משרות שהגשת מחוץ ל-Hiro. פנקס אישי שמאפשר לך לעקוב אחר כל שלב בתהליך הגיוס, מהגשה ועד הצעת עבודה.</p>
+          </div>
+          <figure class="candidates-benefit-image-wrap">
+            <img loading="lazy" decoding="async" data-placeholder="candidates-benefits-image-2" data-context="Application tracking dashboard showing a list of job applications with status indicators like applied, interview, offer, in a clean purple and white SaaS UI, RTL Hebrew interface, organized kanban-style or list view" width="480" height="280" src="/assets/site-candidates-benefits-image-2.webp" alt="מעקב הגשות עבודה ב-Hiro">
+          </figure>
+        </div>
+        <div class="candidates-benefit-indicator">
+          <span class="candidates-benefit-dot"></span>
+          <small>כולל הגשות חיצוניות</small>
+        </div>
+      </article>
+
+      <!-- Card 3: Multi-Persona -->
+      <article class="candidates-benefit-card">
+        <div class="candidates-benefit-card-inner">
+          <div class="candidates-benefit-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <circle cx="16" cy="10" r="4" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M8 26c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <circle cx="26" cy="9" r="3" stroke="currentColor" stroke-width="1.5"></circle>
+              <path d="M22 21c.6-.7 1.5-1.2 2.5-1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              <circle cx="6" cy="9" r="3" stroke="currentColor" stroke-width="1.5"></circle>
+              <path d="M10 21c-.6-.7-1.5-1.2-2.5-1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <div class="candidates-benefit-content">
+            <h3 class="candidates-benefit-title">ניהול ריבוי פרופילים</h3>
+            <p class="candidates-benefit-desc">יש לך יותר מזהות מקצועית אחת? Hiro מאפשרת לך לנהל מספר פרופילים תחת חשבון אחד — למשל: מנהלת חשבונות וגבייה — ולהגיש לכל משרה עם הפרופיל המתאים ביותר.</p>
+          </div>
+          <figure class="candidates-benefit-image-wrap">
+            <img loading="lazy" decoding="async" data-placeholder="candidates-benefits-image-3" data-context="Multi-profile management interface showing multiple professional personas or profiles for one user account, switching between different CV versions, clean purple and white SaaS design, Hebrew RTL UI" width="480" height="280" src="/assets/site-candidates-benefits-image-3.webp" alt="ניהול ריבוי פרופילים מקצועיים ב-Hiro">
+          </figure>
+        </div>
+        <div class="candidates-benefit-indicator">
+          <span class="candidates-benefit-dot candidates-benefit-dot--accent"></span>
+          <small>פרופיל אחד לכל תפקיד</small>
+        </div>
+      </article>
+
+      <!-- Card 4: Real-Time Sync -->
+      <article class="candidates-benefit-card">
+        <div class="candidates-benefit-card-inner">
+          <div class="candidates-benefit-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="M6 16c0-5.5 4.5-10 10-10 3 0 5.7 1.3 7.6 3.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <path d="M26 16c0 5.5-4.5 10-10 10-3 0-5.7-1.3-7.6-3.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <path d="M21 6l2.6 3.4L27 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M11 26l-2.6-3.4L5 25" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              <circle cx="16" cy="16" r="3" fill="var(--accent)"></circle>
+            </svg>
+          </div>
+          <div class="candidates-benefit-content">
+            <h3 class="candidates-benefit-title">סנכרון בזמן אמת</h3>
+            <p class="candidates-benefit-desc">כל עדכון שתעשה בפרופיל שלך — בקורות החיים, בכישורים, בניסיון — מגיע אוטומטית למגייסים הרלוונטיים. אתה תמיד מוצג בצורה הטובה ביותר, ללא מאמץ נוסף.</p>
+          </div>
+          <figure class="candidates-benefit-image-wrap">
+            <img loading="lazy" decoding="async" data-placeholder="candidates-benefits-image-4" data-context="Real-time sync notification interface showing profile update being pushed to recruiters, live status indicators with yellow and purple accents, modern SaaS notification panel, Hebrew RTL design" width="480" height="280" src="/assets/site-candidates-benefits-image-4.webp" alt="סנכרון פרופיל בזמן אמת עם מגייסים ב-Hiro">
+          </figure>
+        </div>
+        <div class="candidates-benefit-indicator">
+          <span class="candidates-benefit-dot candidates-benefit-dot--live"></span>
+          <small>עדכון חי למגייסים</small>
+        </div>
+      </article>
+
+    </div>
+    <!-- /Benefits Grid -->
+
+  </div>
+  <!-- Decorative blobs -->
+  <div class="candidates-benefits-blob candidates-benefits-blob--1" aria-hidden="true"></div>
+  <div class="candidates-benefits-blob candidates-benefits-blob--2" aria-hidden="true"></div>
+</section>
+
+<section class="candidates-journey-section" data-layout-spec="למועמדים-journey" dir="rtl">
+  <div class="candidates-journey-container">
+    <!-- Section Header -->
+    <div class="candidates-journey-header">
+      <span class="candidates-journey-eyebrow">המסע שלך עם Hiro</span>
+      <h2 class="candidates-journey-title">מהרגע הראשון ועד לתפקיד הבא</h2>
+      <p class="candidates-journey-subtitle">Hiro מלווה אותך בכל שלב — משיפור קורות החיים, דרך ניהול ההגשות, ועד לסנכרון אוטומטי עם המגייסים הנכונים.</p>
+    </div>
+
+    <!-- Journey Stages -->
+    <div class="candidates-journey-stages">
+
+      <!-- Stage 1 -->
+      <article class="candidates-journey-stage">
+        <div class="stage-number-badge">01</div>
+        <div class="stage-content">
+          <div class="stage-text">
+            <div class="stage-icon-wrap">
+              <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </div>
+            <h3 class="stage-title">שפר את הפרופיל שלך</h3>
+            <p class="stage-description">סוכן הקריירה האישי של Hiro מנתח את קורות החיים שלך ומציע שיפורים מיידיים — ניסוח חד יותר, הדגשת הישגים, והתאמה לדרישות השוק. תוכל לנהל מספר פרופילים מקצועיים תחת חשבון אחד, כך שכל הגשה תהיה מדויקת ורלוונטית.</p>
+            <ul class="stage-features">
+              <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>עריכת קורות חיים עם AI</span></li>
+              <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>ניהול ריבוי פרופילים (Multi-Persona)</span></li>
+              <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>המלצות אישיות לשיפור</span></li>
+            </ul>
+          </div>
+          <div class="stage-visual">
+            <div class="stage-ui-card">
+              <div class="ui-card-header">
+                <div class="ui-avatar"></div>
+                <div class="ui-header-text">
+                  <div class="ui-name-bar"></div>
+                  <div class="ui-role-bar"></div>
+                </div>
+                <span class="ui-score-badge">92%</span>
+              </div>
+              <div class="ui-progress-section">
+                <div class="ui-progress-label">
+                  <span>חוזק הפרופיל</span>
+                  <span class="ui-progress-value">92%</span>
+                </div>
+                <div class="ui-progress-track"><div class="ui-progress-fill" style="width:92%"></div></div>
+              </div>
+              <div class="ui-suggestions">
+                <div class="ui-suggestion-item active">
+                  <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+                  <span>הוסף תיאור תפקיד מפורט</span>
+                </div>
+                <div class="ui-suggestion-item">
+                  <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                  <span>הוסף כישורים טכניים</span>
+                </div>
+              </div>
+              <img loading="lazy" decoding="async" data-placeholder="candidates-journey-image-1" data-context="A polished UI screenshot of an AI-powered CV/resume improvement tool for a Hebrew HR tech platform called Hiro. Shows a candidate profile editor with AI suggestions, skill tags, and a profile strength meter. Clean white card design with purple accent colors, Hebrew text labels, modern SaaS aesthetic." width="480" height="280" src="/assets/site-candidates-journey-image-1.webp" alt="ממשק שיפור פרופיל מועמד ב-Hiro" class="stage-img">
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Connector -->
+      <div class="stage-connector" aria-hidden="true">
+        <div class="connector-line"></div>
+        <div class="connector-dot"></div>
+      </div>
+
+      <!-- Stage 2 -->
+      <article class="candidates-journey-stage stage-reverse">
+        <div class="stage-number-badge">02</div>
+        <div class="stage-content">
+          <div class="stage-text">
+            <div class="stage-icon-wrap">
+              <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+                <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"></path>
+              </svg>
+            </div>
+            <h3 class="stage-title">נהל את כל ההגשות במקום אחד</h3>
+            <p class="stage-description">עם Application Tracker של Hiro, כל ההגשות שלך — גם אלו שבוצעו מחוץ למערכת — מרוכזות בלוח בקרה אחד ברור. עקוב אחר סטטוס כל תהליך, קבע תזכורות, ודע בדיוק היכן אתה עומד בכל רגע נתון.</p>
+            <ul class="stage-features">
+              <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>מעקב הגשות מכל מקור</span></li>
+              <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>סטטוס עדכני לכל תהליך</span></li>
+              <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>תזכורות וניהול משימות</span></li>
+            </ul>
+          </div>
+          <div class="stage-visual">
+            <div class="stage-ui-card">
+              <div class="ui-tracker-header">
+                <span class="ui-tracker-title">מעקב הגשות</span>
+                <span class="ui-tracker-count">7 פעילות</span>
+              </div>
+              <div class="ui-tracker-list">
+                <div class="ui-tracker-item">
+                  <div class="tracker-dot dot-interview"></div>
+                  <div class="tracker-info">
+                    <span class="tracker-role">מנהל פרויקטים</span>
+                    <span class="tracker-company">TechCorp</span>
+                  </div>
+                  <span class="tracker-status status-interview">ראיון</span>
+                </div>
+                <div class="ui-tracker-item">
+                  <div class="tracker-dot dot-review"></div>
+                  <div class="tracker-info">
+                    <span class="tracker-role">מפתח Full Stack</span>
+                    <span class="tracker-company">StartupX</span>
+                  </div>
+                  <span class="tracker-status status-review">בבחינה</span>
+                </div>
+                <div class="ui-tracker-item">
+                  <div class="tracker-dot dot-sent"></div>
+                  <div class="tracker-info">
+                    <span class="tracker-role">אנליסט נתונים</span>
+                    <span class="tracker-company">DataCo</span>
+                  </div>
+                  <span class="tracker-status status-sent">נשלח</span>
+                </div>
+              </div>
+              <img loading="lazy" decoding="async" data-placeholder="candidates-journey-image-2" data-context="A clean kanban-style application tracker UI for a Hebrew HR tech recruitment platform called Hiro. Shows job applications organized by status columns (sent, in review, interview), with company names, job titles, and color-coded status badges. Modern white card design with purple and teal accents, Hebrew labels." width="480" height="280" src="/assets/site-candidates-journey-image-2.webp" alt="לוח מעקב הגשות ב-Hiro" class="stage-img">
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Connector -->
+      <div class="stage-connector" aria-hidden="true">
+        <div class="connector-line"></div>
+        <div class="connector-dot"></div>
+      </div>
+
+      <!-- Stage 3 -->
+      <article class="candidates-journey-stage">
+        <div class="stage-number-badge stage-badge-accent">03</div>
+        <div class="stage-content">
+          <div class="stage-text">
+            <div class="stage-icon-wrap stage-icon-accent">
+              <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+            <h3 class="stage-title">הישאר גלוי למגייסים הנכונים</h3>
+            <p class="stage-description">כל עדכון שתבצע בפרופיל או בקורות החיים שלך מסונכרן אוטומטית עם המגייסים הרלוונטיים ב-Hiro. אין צורך לשלוח עדכונים ידנית — המערכת מוודאת שאתה תמיד מוצג בצורה הטובה ביותר בפני מגייסים שמחפשים בדיוק את מה שיש לך להציע.</p>
+            <ul class="stage-features">
+              <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>סנכרון אוטומטי בזמן אמת</span></li>
+              <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>התאמה סמנטית למשרות רלוונטיות</span></li>
+              <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>חשיפה למגייסים פעילים</span></li>
+            </ul>
+          </div>
+          <div class="stage-visual">
+            <div class="stage-ui-card stage-ui-card-accent">
+              <div class="ui-sync-header">
+                <div class="ui-sync-icon">
+                  <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                </div>
+                <div>
+                  <span class="ui-sync-title">סנכרון פעיל</span>
+                  <span class="ui-sync-sub">עודכן לפני 2 דקות</span>
+                </div>
+                <span class="ui-sync-live">LIVE</span>
+              </div>
+              <div class="ui-match-list">
+                <div class="ui-match-item">
+                  <div class="match-avatar match-av1"></div>
+                  <div class="match-info">
+                    <span class="match-name">יעל כהן</span>
+                    <span class="match-role">מגייסת בכירה</span>
+                  </div>
+                  <span class="match-score">97%</span>
+                </div>
+                <div class="ui-match-item">
+                  <div class="match-avatar match-av2"></div>
+                  <div class="match-info">
+                    <span class="match-name">רון לוי</span>
+                    <span class="match-role">HR Manager</span>
+                  </div>
+                  <span class="match-score">91%</span>
+                </div>
+              </div>
+              <img loading="lazy" decoding="async" data-placeholder="candidates-journey-image-3" data-context="A real-time sync notification UI for a Hebrew HR tech platform called Hiro. Shows a candidate profile being automatically pushed to relevant recruiters with match percentage scores, recruiter avatars, and a live sync status indicator. Clean white card with purple gradient accents, modern SaaS design, Hebrew interface labels." width="480" height="280" src="/assets/site-candidates-journey-image-3.webp" alt="סנכרון אוטומטי עם מגייסים ב-Hiro" class="stage-img">
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <!-- End Journey Stages -->
+
+  </div>
+</section>
+
+<section class="candidates-reviews-section" data-layout-spec="למועמדים-reviews" dir="rtl">
+  <div class="candidates-reviews-container">
+
+    <!-- Section Header -->
+    <div class="candidates-reviews-header">
+      <span class="candidates-reviews-badge">מה אומרים המועמדים</span>
+      <h2 class="candidates-reviews-title">חוויות אמיתיות מאנשים אמיתיים</h2>
+      <p class="candidates-reviews-subtitle">מועמדים שמצאו את הדרך שלהם עם Hiro — בפחות מאמץ, ביותר ביטחון.</p>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div class="candidates-reviews-grid">
+
+      <!-- Large Featured Review (Start / Right) -->
+      <article class="candidates-review-card candidates-review-card--featured">
+        <div class="candidates-review-quote-mark" aria-hidden="true">
+          <svg data-no-icon-edit="true" aria-hidden="true" width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 28V17.6C0 12.693 1.44 8.72 4.32 5.68C7.2 2.56 11.28 0.72 16.56 0.16L17.52 3.04C14.48 3.68 12.12 4.96 10.44 6.88C8.76 8.72 7.92 11.04 7.92 13.84H14.4V28H0ZM19.44 28V17.6C19.44 12.693 20.88 8.72 23.76 5.68C26.64 2.56 30.72 0.72 36 0.16L36.96 3.04C33.92 3.68 31.56 4.96 29.88 6.88C28.2 8.72 27.36 11.04 27.36 13.84H33.84V28H19.44Z" fill="var(--primary)" opacity="0.18"></path>
+          </svg>
+        </div>
+
+        <div class="candidates-review-image-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="candidates-reviews-image-1" data-context="Professional young Israeli woman in her late 20s smiling confidently at her desk with a laptop, modern office background, warm natural light, professional headshot style for HR tech testimonial" width="80" height="80" src="/assets/site-candidates-reviews-image-1.webp" alt="נועה כהן, מועמדת שמצאה עבודה דרך Hiro">
+          <div class="candidates-review-avatar-ring" aria-hidden="true"></div>
+        </div>
+
+        <blockquote class="candidates-review-blockquote">
+          <h3 class="candidates-review-lead">"סוף סוף הרגשתי שמישהו מבין מה אני מחפשת"</h3>
+          <p class="candidates-review-body">הייתי מגישה קורות חיים לעשרות משרות ולא שומעת כלום בחזרה. עם Hiro, סוכן הקריירה האישי עזר לי לשפר את הפרופיל שלי ופתאום התחלתי לקבל פניות ממגייסים רלוונטיים. תוך שלושה שבועות קיבלתי שלושה ראיונות — לתפקידים שבאמת מתאימים לי. <span class="candidates-review-highlight">המעקב אחרי ההגשות שינה לי את החיים.</span></p>
+        </blockquote>
+
+        <footer class="candidates-review-footer">
+          <div class="candidates-review-stars" aria-label="דירוג 5 מתוך 5 כוכבים">
+            <span aria-hidden="true">★★★★★</span>
+          </div>
+          <div class="candidates-review-author">
+            <strong class="candidates-review-name">נועה כהן</strong>
+            <span class="candidates-review-role">מנהלת שיווק דיגיטלי, תל אביב</span>
+          </div>
+        </footer>
+      </article>
+
+      <!-- Stacked Smaller Reviews (End / Left) -->
+      <div class="candidates-reviews-stack">
+
+        <!-- Small Review 1 -->
+        <article class="candidates-review-card candidates-review-card--small">
+          <div class="candidates-review-top">
+            <div class="candidates-review-image-wrap candidates-review-image-wrap--small">
+              <img loading="lazy" decoding="async" data-placeholder="candidates-reviews-image-2" data-context="Professional Israeli man in his mid 30s with a friendly expression, casual business attire, neutral background, small circular avatar portrait for HR tech platform testimonial" width="56" height="56" src="/assets/site-candidates-reviews-image-2.webp" alt="יונתן לוי, מועמד שמצא עבודה דרך Hiro">
+            </div>
+            <div class="candidates-review-author-block">
+              <strong class="candidates-review-name">יונתן לוי</strong>
+              <span class="candidates-review-role">מהנדס תוכנה, הרצליה</span>
+              <div class="candidates-review-stars candidates-review-stars--small" aria-label="דירוג 5 מתוך 5 כוכבים">
+                <span aria-hidden="true">★★★★★</span>
+              </div>
+            </div>
+          </div>
+          <blockquote class="candidates-review-blockquote">
+            <h3 class="candidates-review-lead candidates-review-lead--small">"ניהול ריבוי פרופילים — פיצ'ר שלא ידעתי שאני צריך"</h3>
+            <p class="candidates-review-body">עבדתי בו זמנית על שני כיוונים מקצועיים שונים. עם <span class="candidates-review-highlight">Multi-Persona</span> של Hiro יכולתי לשמור פרופיל נפרד לכל אחד — בלי לערבב הכל. המגייסים קיבלו בדיוק מה שרלוונטי להם.</p>
+          </blockquote>
+        </article>
+
+        <!-- Small Review 2 -->
+        <article class="candidates-review-card candidates-review-card--small">
+          <div class="candidates-review-top">
+            <div class="candidates-review-image-wrap candidates-review-image-wrap--small">
+              <img loading="lazy" decoding="async" data-placeholder="candidates-reviews-image-3" data-context="Professional Israeli woman in her early 30s with a warm confident smile, business casual look, clean background, small circular avatar portrait for HR recruitment platform review" width="56" height="56" src="/assets/site-candidates-reviews-image-3.webp" alt="מיכל אברהם, מועמדת שמצאה עבודה דרך Hiro">
+            </div>
+            <div class="candidates-review-author-block">
+              <strong class="candidates-review-name">מיכל אברהם</strong>
+              <span class="candidates-review-role">מנהלת חשבונות, רמת גן</span>
+              <div class="candidates-review-stars candidates-review-stars--small" aria-label="דירוג 5 מתוך 5 כוכבים">
+                <span aria-hidden="true">★★★★★</span>
+              </div>
+            </div>
+          </div>
+          <blockquote class="candidates-review-blockquote">
+            <h3 class="candidates-review-lead candidates-review-lead--small">"הסטרס ירד, הביטחון עלה"</h3>
+            <p class="candidates-review-body">לפני Hiro הייתי שולחת קורות חיים ולא יודעת לאן הם הולכים. עכשיו אני רואה הכל בזמן אמת — גם הגשות שעשיתי מחוץ לפלטפורמה. <span class="candidates-review-highlight">השקיפות הזו שינתה לי את כל תהליך החיפוש.</span></p>
+          </blockquote>
+        </article>
+
+      </div>
+      <!-- end stack -->
+
+    </div>
+    <!-- end grid -->
+
+  </div>
+</section>
+
+<section class="candidates-cta-section" data-layout-spec="למועמדים-cta" dir="rtl">
+  <!-- Decorative blobs -->
+  <div class="candidates-cta-blob candidates-cta-blob--top" aria-hidden="true"></div>
+  <div class="candidates-cta-blob candidates-cta-blob--bottom" aria-hidden="true"></div>
+
+  <!-- Decorative asterisk -->
+  <svg class="candidates-cta-asterisk" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2V22M2 12H22M4.93 4.93L19.07 19.07M19.07 4.93L4.93 19.07" stroke="#A78BFA" stroke-width="2.5" stroke-linecap="round"></path>
+  </svg>
+
+  <div class="candidates-cta-container">
+    <div class="candidates-cta-panel">
+
+      <!-- Decorative network dots -->
+      <svg class="candidates-cta-network" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="60" r="4" fill="#A78BFA" opacity="0.5"></circle>
+        <circle cx="120" cy="30" r="3" fill="#A78BFA" opacity="0.4"></circle>
+        <circle cx="200" cy="70" r="5" fill="#A78BFA" opacity="0.35"></circle>
+        <circle cx="280" cy="40" r="3" fill="#A78BFA" opacity="0.45"></circle>
+        <circle cx="160" cy="110" r="4" fill="#A78BFA" opacity="0.3"></circle>
+        <circle cx="80" cy="140" r="3" fill="#A78BFA" opacity="0.4"></circle>
+        <circle cx="240" cy="150" r="4" fill="#A78BFA" opacity="0.35"></circle>
+        <line x1="40" y1="60" x2="120" y2="30" stroke="#A78BFA" stroke-width="1" opacity="0.25"></line>
+        <line x1="120" y1="30" x2="200" y2="70" stroke="#A78BFA" stroke-width="1" opacity="0.2"></line>
+        <line x1="200" y1="70" x2="280" y2="40" stroke="#A78BFA" stroke-width="1" opacity="0.2"></line>
+        <line x1="200" y1="70" x2="160" y2="110" stroke="#A78BFA" stroke-width="1" opacity="0.2"></line>
+        <line x1="40" y1="60" x2="80" y2="140" stroke="#A78BFA" stroke-width="1" opacity="0.2"></line>
+        <line x1="160" y1="110" x2="80" y2="140" stroke="#A78BFA" stroke-width="1" opacity="0.2"></line>
+        <line x1="160" y1="110" x2="240" y2="150" stroke="#A78BFA" stroke-width="1" opacity="0.2"></line>
+        <line x1="280" y1="40" x2="240" y2="150" stroke="#A78BFA" stroke-width="1" opacity="0.18"></line>
+      </svg>
+
+      <div class="candidates-cta-content">
+        <!-- Badge -->
+        <div class="candidates-cta-badge">
+          <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="14" height="14" aria-hidden="true">
+            <path d="M10 2L12.09 7.26L18 8.27L14 12.14L14.99 18L10 15.27L5.01 18L6 12.14L2 8.27L7.91 7.26L10 2Z" fill="#A78BFA"></path>
+          </svg>
+          <span>הסוויטה האישית לקריירה שלך</span>
+        </div>
+
+        <!-- Headline -->
+        <h2 class="candidates-cta-headline">מוכן/ת לקחת שליטה על הקריירה שלך?</h2>
+
+        <!-- Subtext -->
+        <p class="candidates-cta-sub">Hiro היא מערכת גיוס עובדים שעובדת בשבילך — עוקבת אחרי ההגשות שלך, משפרת את קורות החיים שלך, ומסנכרנת אותך עם המגייסים הרלוונטיים ביותר בזמן אמת.</p>
+
+        <!-- Supporting line -->
+        <p class="candidates-cta-support">גלה איך Hiro עוזרת לך להישאר מאורגן/ת, נראה/ית ומוכן/ת — בכל שלב בדרך.</p>
+
+        <!-- CTA Buttons -->
+        <div class="candidates-cta-actions">
+          <a href="/contact" class="candidates-cta-btn-primary">התחל/י בחינם עכשיו</a>
+          <a href="/candidates" class="candidates-cta-btn-ghost">גלה את כל הכלים <span aria-hidden="true">←</span></a>
+        </div>
+
+        <!-- Trust indicators -->
+        <div class="candidates-cta-trust">
+          <div class="candidates-cta-trust-item">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">
+              <path d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18Z" stroke="#A78BFA" stroke-width="1.5"></path>
+              <path d="M7 10L9 12L13 8" stroke="#A78BFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span>ללא כרטיס אשראי</span>
+          </div>
+          <div class="candidates-cta-trust-item">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">
+              <path d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18Z" stroke="#A78BFA" stroke-width="1.5"></path>
+              <path d="M7 10L9 12L13 8" stroke="#A78BFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span>הגדרה תוך דקות</span>
+          </div>
+          <div class="candidates-cta-trust-item">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">
+              <path d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18Z" stroke="#A78BFA" stroke-width="1.5"></path>
+              <path d="M7 10L9 12L13 8" stroke="#A78BFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span>סוכן AI אישי מהיום הראשון</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-inner">
+    <div class="footer-top">
+
+      <!-- Column 1: Company Info -->
+      <div class="footer-col footer-brand">
+        <a href="/" class="footer-logo-link">
+          <img src="/assets/hiro-hr-tech-logo.webp" alt="Hiro" class="logo" />
+        </a>
+        <p class="footer-tagline">פלטפורמת הגיוס החכמה שמחברת בין מגייסים למועמדים המושלמים — במהירות, בדיוק ובחוויה אנושית.</p>
+        <div class="footer-social">
+          
+          
+          
+        </div>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col">
+        <h4 class="footer-heading">ניווט מהיר</h4>
+        <ul class="footer-links">
+          <li><a href="/">בית</a></li>
+          <li><a href="/recruiters">למגייסים</a></li>
+          <li><a href="/candidates">למועמדים</a></li>
+          <li><a href="/contact">צור קשר</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact Info -->
+      <div class="footer-col">
+        <h4 class="footer-heading">יצירת קשר</h4>
+        <ul class="footer-contact">
+          <li>
+            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+            <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span>
+          </li>
+          <li>
+            <span class="contact-icon"><i class="fas fa-phone"></i></span>
+            <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span>
+          </li>
+          <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+            <span class="contact-text">[business_address]</span></a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: CTA Card -->
+      <div class="footer-col footer-cta-col">
+        <div class="footer-cta-card">
+          <span class="cta-badge">חדש</span>
+          <h4 class="cta-title">מוכנים להתחיל?</h4>
+          <p class="cta-desc">הצטרפו לאלפי חברות שכבר גייסו עם Hiro.</p>
+          <a href="/recruiters" class="cta-btn">התחילו בחינם</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Hiro. כל הזכויות שמורות.</p>
+      <div class="footer-legal">
+        <a href="/privacy">מדיניות פרטיות</a>
+        <span class="legal-sep"></span>
+        <a href="/terms">תנאי שימוש</a>
+        <span class="legal-sep"></span>
+        <a href="/accessibility">נגישות</a>
+        <span class="legal-sep"></span>
+        <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+  
+  
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body>
+</html>
